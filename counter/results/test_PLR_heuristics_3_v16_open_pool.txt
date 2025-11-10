@@ -1,0 +1,25 @@
+==================== PLR (v16.0 'Open Pool') TEST REPORT ====================
+
+Total Primes Tested (p_n): 49,999,871
+Pool Size: All integers up to p_n + 210
+
+Total Correct Predictions: 37,383,142
+
+  'Random Chance' Accuracy:   9.40% (1 / avg_primes_in_pool)
+  v_mod6 'Open Pool' (Baseline): 14.77%
+  v16.0 'Open Pool' (New):      74.77%
+  ---------------------------------
+  Improvement over v_mod6: +60.00 percentage points
+
+
+==================== FINAL CONCLUSION ====================
+
+  [VERDICT: 'HOLE A' IS CLOSED. THE SIGNAL IS REAL.]
+  The v16.0 'Chained Signature' engine (Acc: 74.77%)
+  is a significantly stronger *predictor* than the simple
+  v_mod6 engine (Acc: 14.77%).
+
+  This proves the 75.94% 'classification' score translates
+  into a real, robust, and superior predictive signal
+  in a 'noisy' open pool environment.
+====================================================================

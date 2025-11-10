@@ -15,7 +15,7 @@ import json # Import the JSON library
 PRIME_INPUT_FILE = "prime/primes_100m.txt"
 MAX_PRIME_PAIRS_TO_TEST = 50000000
 START_INDEX = 10 
-OUTPUT_JSON_FILE = "messiness_map_v3_mod210.json" # The new engine file
+OUTPUT_JSON_FILE = "messiness_map_v3_mod210.json" # Our new engine file
 
 # --- Function to load primes from a file ---
 def load_primes_from_file(filename):

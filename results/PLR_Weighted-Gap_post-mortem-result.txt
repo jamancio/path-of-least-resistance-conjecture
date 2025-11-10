@@ -1,0 +1,29 @@
+==================== PLR (v11.0) FAILURE ANALYSIS REPORT ====================
+
+Total Primes Tested (p_n): 50,000,000
+  - Total SUCCESSES: 30,246,112 (60.49%)
+  - Total FAILURES:  19,753,888 (39.51%)
+
+-------------------- Analysis of the 39.51% Failures --------------------
+
+  SCENARIO A ('Lost on Closeness'):            0
+     (True & Fake had same v_mod6 score)       0.00% of failures
+
+  SCENARIO B ('Lost on Cleanliness'):  19,753,888
+     (True prime was 'messier' than fake)  100.00% of failures
+
+  SCENARIO C ('Lost on Gap'):                    0
+     (True prime was 'cleaner' but too far)   0.00% of failures
+
+
+==================== FINAL CONCLUSION ====================
+
+  This table shows the *exact composition* of our failures.
+
+  [VERDICT: 'CLEANLINESS' SIGNAL IS STILL FLAWED]
+  The majority of failures are from Scenario B.
+  This means our `v_mod6` signal is still too simple.
+  The engine is being 'deceived' by messy true anchors,
+  which implies a *smarter 'Cleanliness' filter* is needed
+  to break the 60.49% barrier.
+====================================================================

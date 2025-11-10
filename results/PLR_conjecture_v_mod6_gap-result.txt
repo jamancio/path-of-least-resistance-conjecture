@@ -1,0 +1,22 @@
+==================== PLR (v_mod6_gap) TEST REPORT ====================
+
+Total Primes Tested (p_n): 50,000,000
+Candidates Checked per Prime: 10
+
+Total Correct Predictions: 8,914,247
+
+  Random Chance Accuracy:      10.00%
+  v_mod6 Engine (Baseline):    55.51% (Mod 6 Only)
+  v_mod6_gap Engine (New):   17.83% (Mod 6 + Gap)
+  ---------------------------------
+  Improvement over Baseline: -37.68 percentage points
+
+
+==================== FINAL CONCLUSION ====================
+
+  [VERDICT: NO IMPROVEMENT. v_mod6 REMAINS CHAMPION]
+  The new engine's accuracy (17.83%) is not better than
+  the v_mod6 baseline (55.51%).
+  The Gap Correlation, while real, does not add predictive
+  power *on top of* the pure Mod 6 signal.
+====================================================================

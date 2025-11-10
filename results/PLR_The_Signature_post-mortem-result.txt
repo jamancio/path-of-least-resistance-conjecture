@@ -1,0 +1,30 @@
+Total Primes Tested (p_n): 50,000,000
+  - Total SUCCESSES: 34,036,605 (68.07%)
+  - Total FAILURES:  15,963,395 (31.93%)
+
+-------------------- New Distribution of True Prime's Rank (in v12.0 Failures) --------------------
+
+Rank of True Prime   | Failure Count   | % of All Failures   
+------------------------------------------------------------
+1                    | 525,149         |                3.29%
+3                    | 4,086,740       |               25.60%
+4                    | 3,621,930       |               22.69%
+5                    | 3,376,247       |               21.15%
+6                    | 2,596,644       |               16.27%
+7                    | 1,313,920       |                8.23%
+8                    | 383,221         |                2.40%
+9                    | 56,306          |                0.35%
+10                   | 3,238           |                0.02%
+
+
+==================== FINAL CONCLUSION ====================
+
+  This table shows the 'failure signature' of our 68.07% engine.
+
+  [VERDICT: THE TRAIL HAS GONE COLD. 68.07% IS THE LIMIT.]
+  The failures are now distributed more evenly, with
+  Rank 3 only accounting for 25.60% of failures.
+  This implies our 'Clean #1 vs. Messy #2' rule was the
+  only reliable signature, and the remaining 31.93% of
+  failures are true 'noise' that cannot be easily fixed.
+====================================================================

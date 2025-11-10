@@ -1,0 +1,21 @@
+==================== PLR (v10.0 'Large-Gap Bake-Off') TEST REPORT ====================
+
+Total Primes Tested (p_n): 50,000,000
+Total 'Large-Gap' Anchors Analyzed (g_n >= 20.0): 19,252,858
+
+--- Accuracy *Only in Large-Gap Mode* (g_n >= 20.0) ---
+  Random Chance Accuracy:   10.00%
+  v_mod6 (Mod 6) Engine:    55.51%
+  v1.0 (Mod 30) Engine:   18.56%
+  v3.0 (Mod 210) Engine:  11.39%
+  ---------------------------------
+
+
+==================== FINAL CONCLUSION ====================
+
+  Analysis complete. This test reveals the 'champion' engine
+  for the 'Large-Gap' failure mode.
+  We can now build the ultimate hierarchical engine (v7.0) by
+  using the v_mod6 engine for small gaps and the winner
+  of this test for large gaps.
+====================================================================

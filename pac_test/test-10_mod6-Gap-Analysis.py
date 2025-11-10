@@ -1,35 +1,32 @@
 # ==============================================================================
-# PRIMORIAL ANCHOR CONJECTURE (PAC) - TEST 7: 2D Messiness Map (v2.1)
+# PRIMORIAL ANCHOR CONJECTURE (PAC) - TEST 10: Mod 6 Gap Analysis
 #
-# This script builds the "v2.1" engine by creating a 2D lookup table of
-# "Messiness Scores". It replaces the flawed v2.0 "Gap Factor" logic.
+# This script builds the "v_mod6_gap" engine data.
 #
-# GOAL:
-# We will analyze all 6.6 million failures and bin
-# them based on TWO features:
-# 1. The S_n % 30 residue class (from Test 3)
-# 2. The g_n gap category (Small, Medium, Large) (from Test 6)
+# It creates a 2D "Messiness Map" by binning all 50M anchors
+# and their failures based on TWO features:
+# 1. The S_n % 6 residue class (our 55.51% signal)
+# 2. The g_n gap category (Small, Medium, Large)
 #
-# The output is a precise 2D map of failure counts (e.g., Score[residue][gap_category]),
-# which will become the basis for the PLR v2.1 engine.
+# The output is a precise 2D map of "Failure Rates (%)", which will be
+# the new engine for our next PLR test.
 # ==============================================================================
 
 import math
 import time
 from collections import defaultdict
+import json
 
 # --- Configuration ---
-PRIME_INPUT_FILE = "prime/primes_100m.txt"
+PRIME_INPUT_FILE = "../prime/primes_100m.txt"
 MAX_PRIME_PAIRS_TO_TEST = 50000000
 START_INDEX = 10 
+OUTPUT_JSON_FILE = "messiness_map_v_mod6_gap.json" # Our new engine file
 
 # --- Gap Categorization (from test-6-result.txt) ---
-# Overall average gap g_n from 50M pair test
 OVERALL_AVG_GAP = 19.6490 #
-# Let's define simple, clean bins around the average
-GAP_BIN_SMALL = 18.0  # Gaps < 18 are "Small"
-GAP_BIN_LARGE = 22.0  # Gaps >= 22 are "Large"
-                      # Gaps between 18 and 22 are "Medium"
+GAP_BIN_SMALL = 18.0
+GAP_BIN_LARGE = 22.0
 
 # --- Function to load primes from a file ---
 def load_primes_from_file(filename):
@@ -64,26 +61,24 @@ def categorize_gap(gap_g_n):
         return "Medium"
 
 # --- Main Testing Logic ---
-def run_2D_messiness_map_analysis():
+def run_mod6_gap_analysis():
     
     prime_list, prime_set = load_primes_from_file(PRIME_INPUT_FILE)
     if prime_list is None: return
 
-    print(f"\nStarting PAC 2D Messiness Map Analysis for {MAX_PRIME_PAIRS_TO_TEST:,} S_n pairs...")
-    print(f"  - Binning {MAX_PRIME_PAIRS_TO_TEST:,} anchors by (S_n % 30) AND (Gap Category)...")
-    print(f"  - Gap Bins: Small (<{GAP_BIN_SMALL}), Medium, Large (>{GAP_BIN_LARGE})")
+    print(f"\nStarting PAC Mod 6 + Gap 2D Analysis for {MAX_PRIME_PAIRS_TO_TEST:,} S_n pairs...")
+    print(f"  - Binning anchors and failures by (S_n % 6) AND (Gap Category)...")
+    print(f"  - Saving results to {OUTPUT_JSON_FILE}")
     print("-" * 80)
     start_time = time.time()
     
-    # --- Data structures for the test ---
     total_law_I_failures = 0
     
     # 2D Dictionary: {residue: {gap_category: failure_count}}
-    failure_map = {res: defaultdict(int) for res in range(30)}
+    failure_map = {res: defaultdict(int) for res in range(6)}
     
-    # We also count total anchors in each bin to find the *failure rate*
     # {residue: {gap_category: anchor_count}}
-    anchor_map = {res: defaultdict(int) for res in range(30)}
+    anchor_map = {res: defaultdict(int) for res in range(6)}
 
     loop_end_index = MAX_PRIME_PAIRS_TO_TEST + START_INDEX
     
@@ -99,10 +94,9 @@ def run_2D_messiness_map_analysis():
         gap_g_n = p_n_plus_1 - p_n
         
         # --- 1. Categorize the Anchor ---
-        residue = anchor_S_n % 30
+        residue = anchor_S_n % 6
         gap_category = categorize_gap(gap_g_n)
         
-        # Increment the count for this type of anchor
         anchor_map[residue][gap_category] += 1
 
         # --- 2. Find the Law I k_min ---
@@ -130,8 +124,6 @@ def run_2D_messiness_map_analysis():
         
         if is_k_composite:
             total_law_I_failures += 1
-            
-            # --- 4. Log the failure in our 2D map ---
             failure_map[residue][gap_category] += 1
             
     print(f"Progress: {MAX_PRIME_PAIRS_TO_TEST:,} / {MAX_PRIME_PAIRS_TO_TEST:,} | Law I Fails: {total_law_I_failures:,} | Time: {time.time() - start_time:.0f}s   ")
@@ -139,18 +131,20 @@ def run_2D_messiness_map_analysis():
     print("-" * 80)
 
     # --- Final Reports ---
-    print("\n" + "="*20 + " PAC-7: 2D MESSINESS MAP (v2.1 Engine Data) " + "="*20)
+    print("\n" + "="*20 + " PAC-10: MOD 6 + GAP ANALYSIS (v_mod6_gap Engine Data) " + "="*20)
     print(f"\nTotal S_n Anchors Analyzed: {MAX_PRIME_PAIRS_TO_TEST:,}")
     print(f"Total Law I Failures Found: {total_law_I_failures:,}")
 
-    print("\n" + "-" * 20 + " Failure Rate by (S_n % 30 Residue) AND (Gap Category) " + "-" * 20)
+    print("\n" + "-" * 20 + " Failure Rate by (S_n % 6 Residue) AND (Gap Category) " + "-" * 20)
     print(f"\n{'Residue':<10} | {'Gap Cat.':<10} | {'Failure Count':<15} | {'Total Anchors':<15} | {'FAILURE RATE (%)':<20}")
     print("-" * 75)
     
-    messiness_scores = {} # This is our new v2.1 engine data
+    messiness_scores_v_mod6_gap = {} 
 
-    for residue in range(30):
-        if not anchor_map[residue]: continue # Skip empty residues
+    for residue in range(6):
+        # S_n = p_n + p_{n+1}. For n>0, p_n, p_{n+1} are odd, so S_n is even.
+        # Residues 1, 3, 5 are not expected (except for S_0=2+3=5)
+        if residue % 2 != 0: continue 
             
         for category in ["Small", "Medium", "Large"]:
             failures = failure_map[residue].get(category, 0)
@@ -158,26 +152,24 @@ def run_2D_messiness_map_analysis():
             
             if total_anchors > 0:
                 failure_rate = (failures / total_anchors) * 100
-                
-                # Our new "Messiness Score" is this failure rate.
-                # A 15% failure rate is "messier" than a 10% rate.
-                messiness_scores[(residue, category)] = failure_rate
-                
+                messiness_scores_v_mod6_gap[(residue, category)] = failure_rate
                 print(f"{residue:<10} | {category:<10} | {failures:<15,} | {total_anchors:<15,} | {failure_rate:<20.4f}%")
+            else:
+                # If this bin never appeared, it's impossible. Infinitely messy.
+                messiness_scores_v_mod6_gap[(residue, category)] = float('inf')
         print("-" * 75)
         
-    # --- Final Conclusion ---
-    print("\n\n" + "="*20 + " FINAL CONCLUSION " + "="*20)
-    print("\n  Analysis complete. This 2D map provides the true 'Messiness Score'")
-    print("  (the Failure Rate) for each anchor combination.")
-    print("\n  This data is the new, more accurate v2.1 engine.")
-    print("  We can now build a PLR v2.1 test using this 'Failure Rate' as the")
-    print("  score to predict the Path of Least Resistance.")
-
-    # Optional: Save the messiness_scores to a file (e.g., pickle or json)
-    # for the v2.1 test script to load directly.
+    # --- *** SAVE THE ENGINE DATA TO A FILE *** ---
+    try:
+        # We need to convert the tuple keys to strings for JSON
+        string_key_map = {f"{k[0]},{k[1]}": v for k, v in messiness_scores_v_mod6_gap.items()}
+        with open(OUTPUT_JSON_FILE, 'w') as f:
+            json.dump(string_key_map, f, indent=2)
+        print(f"\n  [SUCCESS] Messiness Score map saved to '{OUTPUT_JSON_FILE}'")
+    except Exception as e:
+        print(f"\n  [FAILURE] Could not save JSON file: {e}")
     
     print("=" * (50 + len(" FINAL CONCLUSION ")))
 
 if __name__ == "__main__":
-    run_2D_messiness_map_analysis()
+    run_mod6_gap_analysis()

@@ -1,0 +1,35 @@
+# ==============================================================================
+# PLR ANALYSIS - TEST 28: Structural Factor (k_min) Composition
+#
+# This script analyzes the remaining predictability by classifying the
+# structural type (the k_min) of every composite failure.
+#
+# Our goal is to identify which odd prime factors (5, 7, 11...) are
+# creating the final, unpredictable failures.
+# ==============================================================================
+
+==================== k_min COMPOSITION OF PLR FAILURES ====================
+
+Total v11.0 Failures Analyzed (k_min Composite): 5,142,043
+
+-------------------- Top 10 Structural Failure Factors --------------------
+
+k_min Value  | Failure Count   | % of Total Failures       | Dominant Factor
+---------------------------------------------------------------------------
+9            | 2,497,310       |                    48.57% | Factor of 3    
+15           | 1,105,158       |                    21.49% | Factor of 3    
+21           | 617,406         |                    12.01% | Factor of 3    
+27           | 344,432         |                     6.70% | Factor of 3    
+25           | 188,199         |                     3.66% | Factor of 5    
+33           | 162,736         |                     3.16% | Factor of 3    
+39           | 81,101          |                     1.58% | Factor of 3    
+35           | 52,387          |                     1.02% | Factor of 5    
+45           | 34,875          |                     0.68% | Factor of 3    
+51           | 19,732          |                     0.38% | Factor of 3    
+
+
+==================== FINAL CONCLUSION ====================
+
+  This analysis shows the structural weakness of the true anchor.
+  We are looking for a concentration of factors other than 3.
+====================================================================

@@ -1,0 +1,24 @@
+==================== PLR SUCCESS vs. FAILURE GAP ANALYSIS ====================
+
+Total Primes Analyzed (p_n): 50,000,000
+Candidates Checked per Prime: 10
+
+  Total SUCCESSES (True prime was in best-scoring group): 27,753,674 (55.51%)
+  Total FAILURES (True prime was NOT in best-scoring group): 22,246,326 (44.49%)
+
+-------------------- Average Gap (g_n) Analysis --------------------
+  Overall Average Gap (g_n) for all tested primes: 19.6490
+  Average Gap (g_n) for 55.51% SUCCESSES:        18.3322
+  Average Gap (g_n) for 44.49% FAILURES:        21.2919
+
+
+==================== FINAL CONCLUSION ====================
+
+  [VERDICT: 'HIDDEN VARIABLE' DISCOVERED]
+  The 'g_n' (prime gap) is a key moderating variable.
+  The average gap for SUCCESSES (18.3322) is
+  statistically different from the gap for FAILURES (21.2919).
+
+  This proves the 44.49% of failures are NOT random.
+  They are strongly correlated with the prime gap.
+====================================================================

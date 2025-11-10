@@ -1,0 +1,22 @@
+==================== PLR (v7.0 'Recursive') TEST REPORT ====================
+
+Total Primes Tested (p_n): 50,000,000
+Candidates Checked per Prime: 10
+
+Total Correct Predictions: 28,918,100
+
+  Random Chance Accuracy:      10.00%
+  v_mod6 Engine (Baseline):    55.51% (Mod 6 Only)
+  v7.0 'Recursive' Engine (New): 57.84%
+  ---------------------------------
+  Improvement over Baseline: +2.33 percentage points
+
+
+==================== FINAL CONCLUSION ====================
+
+  [VERDICT: SUCCESS. v7.0 'RECURSIVE' MODEL IS SUPERIOR]
+  The new 'Recursive' engine is the strongest predictor yet!
+  This is a new accuracy record: 57.84%
+  This proves that a dynamic, hierarchical filter is the
+  correct way to model the 'Path of Least Resistance'.
+====================================================================

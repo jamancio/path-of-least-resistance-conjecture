@@ -1,0 +1,27 @@
+==================== PLR (v9.0 'Multi-Signal' Corrected) TEST REPORT ====================
+
+Total Primes Tested (p_n): 50,000,000
+Candidates Checked per Prime: 10
+
+Total Correct (v7.0 Corrected Baseline): 7,774,011
+Total Correct (v9.0 New):                9,285,933
+
+  v7.0 'Recursive' (Corrected Baseline): 15.55%
+  v9.0 'Multi-Signal' (New):           18.57%
+  ---------------------------------
+  Improvement over Corrected Baseline: +3.02 percentage points
+
+
+==================== FINAL CONCLUSION ====================
+
+  This is the definitive 'apples-to-apples' test.
+  Note that the v7.0 baseline accuracy itself may have changed
+  now that it's using corrected v1.0 data.
+
+  [VERDICT: SUCCESS. 'MULTI-SIGNAL' IS SUPERIOR]
+  The new 'Multi-Signal' engine is the strongest predictor yet!
+  This is a new accuracy record: 18.57%
+  This proves that the v7.0 engine's 'blind spot' (Mode 2)
+  was the key. By adding the normalized v_mod30 signal as a
+  tie-breaker, the engine can now 'see' k=25 failures and avoid them.
+====================================================================

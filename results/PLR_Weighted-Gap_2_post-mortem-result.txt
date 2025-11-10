@@ -1,0 +1,32 @@
+==================== PLR (v11.0) FAILURE RANK REPORT ====================
+
+Total Primes Tested (p_n): 50,000,000
+  - Total SUCCESSES: 30,246,112 (60.49%)
+  - Total FAILURES:  19,753,888 (39.51%)
+
+-------------------- Distribution of True Prime's Rank (in Failures) --------------------
+
+Rank of True Prime   | Failure Count   | % of All Failures   
+------------------------------------------------------------
+2                    | 4,315,642       |               21.85%
+3                    | 4,086,740       |               20.69%
+4                    | 3,621,930       |               18.34%
+5                    | 3,376,247       |               17.09%
+6                    | 2,596,644       |               13.14%
+7                    | 1,313,920       |                6.65%
+8                    | 383,221         |                1.94%
+9                    | 56,306          |                0.29%
+10                   | 3,238           |                0.02%
+
+
+==================== FINAL CONCLUSION ====================
+
+  This table shows the *full distribution* of failures.
+
+  [VERDICT: 'PATH OF LEAST RESISTANCE' IS THE TRUE LIMIT]
+  The failures are distributed across all ranks, with only
+  21.85% of failures coming from 2nd place.
+  This suggests the 39.51% of failures are truly 'noise',
+  where the true prime is not the 'Path of Least Resistance'
+  and is often indistinguishable from other candidates.
+====================================================================

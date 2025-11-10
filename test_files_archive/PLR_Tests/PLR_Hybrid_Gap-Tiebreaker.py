@@ -1,12 +1,16 @@
 # ==============================================================================
-# PATH OF LEAST RESISTANCE (PLR) CONJECTURE - TEST (v_mod6)
+# PATH OF LEAST RESISTANCE (PLR) - TEST 8: The "Gap Tie-Breaker" Engine
 #
-# This script tests the PLR conjecture using the "PAC Diagnostic Engine v_mod6".
+# This is the test of our most advanced "v5.0" engine.
+#
+# It combines our two strongest, verified signals:
+# 1. PRIMARY: The v_mod6 "Messiness Score" (our 55.51% signal)
+# 2. TIE-BREAKER: The 'g_n' prime gap (our 18.33 vs 21.29 signal)
 #
 # HYPOTHESIS:
-# The v_mod6 engine (Mod 6 failure rates) will have an accuracy
-# *lower* than the v1.0 (Mod 30) baseline of 18.57%, but
-# *higher* than the v3.0 (Mod 210) score of 10.97%.
+# By sorting candidates *first* by their Mod 6 score, and *then*
+# by their gap size (g_n) to break ties, this v5.0 engine
+# will achieve an accuracy *higher* than the 55.51% v_mod6 baseline.
 # ==============================================================================
 
 import time
@@ -14,7 +18,7 @@ import math
 import json
 
 # --- Engine Setup ---
-ENGINE_DATA_FILE = "messiness_map_v_mod6.json"
+ENGINE_DATA_FILE = "data/messiness_map_v_mod6.json"
 MESSINESS_MAP_V_MOD6 = None
 
 def load_engine_data():
@@ -27,7 +31,7 @@ def load_engine_data():
             return True
     except FileNotFoundError:
         print(f"FATAL ERROR: Engine file '{ENGINE_DATA_FILE}' not found.")
-        print("Please run 'test-9_mod6-Residue-Analysis.py' first.")
+        print("Please run 'test-9_mod6-Reside-Analysis.py' first.")
         return False
     except Exception as e:
         print(f"FATAL ERROR: Could not load or parse engine file: {e}")
@@ -72,9 +76,8 @@ def load_primes_from_file(filename):
     return prime_list
 
 # --- Main Testing Logic ---
-def run_PLR_predictive_test_v_mod6():
+def run_PLR_hybrid_gap_tiebreaker_test():
     
-    # First, load the engine data
     if not load_engine_data():
         print("Stopping test: Engine data could not be loaded.")
         return
@@ -82,8 +85,8 @@ def run_PLR_predictive_test_v_mod6():
     prime_list = load_primes_from_file(PRIME_INPUT_FILE)
     if prime_list is None: return
 
-    print(f"\nStarting PLR Predictive Test (v_mod6) for {PRIMES_TO_TEST:,} primes...")
-    print(f"  - Using Engine v_mod6 (Mod 6 Failure Rate Map)")
+    print(f"\nStarting PLR Hybrid 'Gap Tie-Breaker' Test (v5.0) for {PRIMES_TO_TEST:,} primes...")
+    print(f"  - Using Engine v5.0 (Mod 6 Score + g_n Gap Tie-Breaker)")
     print(f"  - Scoring {NUM_CANDIDATES_TO_CHECK} candidates for each prime.")
     print("-" * 80)
     start_time = time.time()
@@ -112,17 +115,30 @@ def run_PLR_predictive_test_v_mod6():
         candidate_scores = []
         for q_i in candidates:
             S_cand = p_n + q_i
+            gap_g_i = q_i - p_n
             
-            # --- Call the v_mod6 Engine ---
-            messiness_score = get_messiness_score_v_mod6(S_cand)
+            # --- Call the v_mod6 Engine for the PRIMARY score ---
+            primary_score = get_messiness_score_v_mod6(S_cand)
+            
+            # --- The gap (g_n) is the SECONDARY score ---
+            secondary_score = gap_g_i
             # ---
             
-            candidate_scores.append((messiness_score, q_i))
+            # Store the (prime, (primary_score, secondary_score))
+            candidate_scores.append((q_i, (primary_score, secondary_score)))
             
-        # Find the Best Candidate (lowest score / lowest failure rate)
-        candidate_scores.sort(key=lambda x: x[0])
-        best_score, predicted_p_n_plus_1 = candidate_scores[0]
+        # --- 5. Find the Best Candidate (Hierarchical Sort) ---
         
+        # This sort key is the *crucial* part of v5.0.
+        # It sorts by item[1][0] (primary_score, mod 6) first.
+        # Then, it uses item[1][1] (secondary_score, the gap) to break ties.
+        # A smaller gap is better, as shown by Test 7 
+        candidate_scores.sort(key=lambda x: (x[1][0], x[1][1]))
+        
+        # The best candidate is the first one in this 2-level sorted list
+        predicted_p_n_plus_1, best_scores = candidate_scores[0]
+        
+        # --- 6. Tally the Prediction ---
         total_predictions += 1
         if predicted_p_n_plus_1 == true_p_n_plus_1:
             total_successes += 1
@@ -134,35 +150,38 @@ def run_PLR_predictive_test_v_mod6():
     print(f"\nAnalysis completed in {time.time() - start_time:.2f} seconds.")
     print("-" * 80)
 
-    print("\n" + "="*20 + " PLR (v_mod6) TEST REPORT " + "="*20)
+    print("\n" + "="*20 + " PLR (v5.0 'Gap Tie-Breaker') TEST REPORT " + "="*20)
     print(f"\nTotal Primes Tested (p_n): {total_predictions:,}")
     print(f"Candidates Checked per Prime: {NUM_CANDIDATES_TO_CHECK}")
     
     random_chance_accuracy = (1 / NUM_CANDIDATES_TO_CHECK) * 100
-    baseline_v1_accuracy = 18.57 #
-    baseline_v3_accuracy = 10.97 #
+    baseline_v_mod6_accuracy = 55.51 #
     
     print(f"\nTotal Correct Predictions: {total_successes:,}")
-    print(f"\n  Random Chance Accuracy:   {random_chance_accuracy:.2f}%")
-    print(f"  v3.0 Engine (Mod 210):    {baseline_v3_accuracy:.2f}%")
-    print(f"  v_mod6 Engine (Mod 6):    {accuracy:.2f}%")
-    print(f"  v1.0 Engine (Mod 30):     {baseline_v1_accuracy:.2f}% (The 'Sweet Spot')")
+    print(f"\n  Random Chance Accuracy:      {random_chance_accuracy:.2f}%")
+    print(f"  v_mod6 Engine (Baseline):    {baseline_v_mod6_accuracy:.2f}% (Mod 6 Only)")
+    print(f"  v5.0 'Gap Tie-Breaker' (New): {accuracy:.2f}% (Mod 6 + Gap Tie-Break)")
     print("  ---------------------------------")
-    
+    improvement = accuracy - baseline_v_mod6_accuracy
+    print(f"  Improvement over Baseline: {improvement:+.2f} percentage points")
+
+
     # --- Final Conclusion ---
     print("\n\n" + "="*20 + " FINAL CONCLUSION " + "="*20)
-    if accuracy < baseline_v1_accuracy and accuracy > baseline_v3_accuracy:
-        print("\n  [VERDICT: 'SWEET SPOT' HYPOTHESIS CONFIRMED]")
-        print("  The 'Mod 30' (v1.0) engine remains the most predictive model.")
-        print(f"  The 'Mod 6' engine ({accuracy:.2f}%) is weaker than 'Mod 30',")
-        print("  as it lacks the ability to filter k % 5 failures.")
-        print("  This strongly supports the 'Goldilocks' theory.")
+    if accuracy > baseline_v_mod6_accuracy:
+        print("\n  [VERDICT: SUCCESS. v5.0 HYBRID MODEL IS SUPERIOR]")
+        print("  The new 'Gap Tie-Breaker' engine is a stronger predictor")
+        print(f"  than the v_mod6 (Mod 6) engine, achieving {accuracy:.2f}% accuracy.")
+        print(f"  This is a new accuracy record and proves the 44.49% of failures")
+        print("  were partially caused by ties that the 'g_n' signal can resolve.")
     else:
-        print("\n  [VERDICT: HYPOTHESIS FALSIFIED]")
-        print(f"  The result ({accuracy:.2f}%) breaks the expected pattern.")
-        print("  This implies the predictive mechanism is more complex.")
+        print("\n  [VERDICT: NO IMPROVEMENT. v_mod6 REMAINS CHAMPION]")
+        print(f"  The new engine's accuracy ({accuracy:.2f}%) is not better than")
+        print(f"  the v_mod6 baseline ({baseline_v_mod6_accuracy:.2f}%).")
+        print("  The 'g_n' Gap Correlation, while real, does not provide a")
+        print("  useful *tie-breaking* signal for the Mod 6 engine.")
 
     print("=" * (50 + len(" FINAL CONCLUSION ")))
 
 if __name__ == "__main__":
-    run_PLR_predictive_test_v_mod6()
+    run_PLR_hybrid_gap_tiebreaker_test()
