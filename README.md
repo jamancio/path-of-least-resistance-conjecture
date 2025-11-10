@@ -3,7 +3,9 @@
 ## A Statistical Proof of the PLR Conjecture's Deterministic Boundary
 
 **Author:** Independent Researcher (City of Malabon, Metro Manila, Philippines)
+
 **Date:** November 10, 2025 (Final Update)
+
 **Verification Extent:** First 50,000,000 consecutive primes ($\text{p}_n$)
 
 ### Abstract
