@@ -1,0 +1,42 @@
+# ==============================================================================
+# PATH OF LEAST RESISTANCE (PLR) - TEST 36: The "PAS Radius" Test (v20.0)
+#
+# This is the final analytic test to find the f(p_n) function.
+#
+# HYPOTHESIS:
+# The 24.06% of failures from our v16.0 engine are not random.
+# They are correlated with the "structural instability" of the
+# *previous* anchor (S_{n-1} = p_{n-1} + p_n).
+#
+# We will check if the 24.06% of failures are concentrated in
+# cases where the *previous* anchor was "messy" (PAS Law III r_{n-1} > 0).
+#
+# This tests if f(p_n) is a function of the PAS Correction Radius.
+# ==============================================================================
+
+
+==================== PLR (v20.0 'PAS Radius') TEST REPORT ====================
+
+Total Primes Tested: 50,000,000
+Total v16.0 Failures Analyzed (24.06%): 12,030,259
+
+-------------------- Failure Distribution by S_{n-1} Stability --------------------
+
+  Failures when S_n-1 was 'CLEAN' (r=0):   10,448,419
+     (% of all failures)                       86.85%
+
+  Failures when S_n-1 was 'MESSY' (r>0):    1,581,840
+     (% of all failures)                       13.15%
+
+
+==================== FINAL ANALYTIC CONCLUSION ====================
+
+  [VERDICT: THE TRAIL HAS GONE COLD. 75.94% IS THE LIMIT.]
+  The failure distribution (13.15% for 'MESSY')
+  is statistically identical to the baseline rate
+  of 'Messy' anchors (~13.20%).
+
+  This confirms the previous p_n residue test: the 24.06%
+  of failures are true *local* randomness, not correlated
+  with the historical instability of the anchor field.
+=============================================================================
