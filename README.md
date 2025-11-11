@@ -16,12 +16,12 @@ This paper presents the concluding findings of the **Path of Least Resistance ($
 
 ### I. The Journey: Falsification and the Structural Ceiling
 
-The $\text{PLR}$ research was a sustained effort to solve a single problem: the optimal combination of **Cleanliness** ($\text{v}_{\text{mod6}}$ rate) and **Closeness** ($\text{Gap}_{g_n}$) that governs the prime sequence.
+The $\text{PLR}$ research was a sustained effort to solve a single problem: the optimal combination of **Cleanliness** ($v_{mod6}$ rate) and **Closeness** ($\text{Gap}_{g_n}$) that governs the prime sequence.
 
 #### A. Isolating the Core Signal
 
 The initial phase identified the $\text{v}11.0$ core as the foundational predictive success:
-$$\mathbf{\text{Base Score} = (\text{v}_{\text{mod6}} \text{ Rate} + \text{1.0}) \times \text{Gap}_{g_n}}$$
+$$\mathbf{\text{Base Score} = (v_{\text{mod6}} \text{ Rate} + \text{1.0}) \times \text{Gap}_{g_n}}$$
 This multiplicative core established a baseline accuracy of **$\text{60.49}\%$**.
 
 #### B. The Dead Ends (The Limits of Complexity)
