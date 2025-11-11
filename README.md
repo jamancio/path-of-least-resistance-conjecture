@@ -54,7 +54,7 @@ $$\mathbf{\text{Final Predictor Score} = \underbrace{(\text{v}_{\text{mod6}} \te
 
 The Logic Gate is defined by the condition $\mathbf{X}$ (the "Internal Flip"):
 
-$$\mathbf{f}(\mathbf{p}_n) = \begin{cases} -1 \quad (\text{Flip}), & \text{if } \mathbf{\text{Gap}_{\text{Messy\_Low}} < \text{Gap}_{\text{Winner}}} \\ +1 \quad (\text{Trust}), & \text{otherwise} \end{cases}$$
+$$\mathbf{f}(p_n) = \begin{cases} -1 \quad (\text{Flip}), & \text{if } \mathbf{Gap_{{Messy_Low}} < \text{Gap}_{\text{Winner}}} \\ +1 \quad (\text{Trust}), & \text{otherwise} \end{cases}$$
 
 #### C. Final Verification
 
