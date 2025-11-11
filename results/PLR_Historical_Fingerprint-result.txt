@@ -1,0 +1,73 @@
+# ==============================================================================
+# PATH OF LEAST RESISTANCE (PLR) - TEST 37: The "Historical Fingerprint" Analysis
+#
+# This is the final analytic post-mortem. It tests the "origin"
+# hypothesis: that the 24.06% of v16.0 failures are preceded by a
+# unique "historical fingerprint" of PAS instability (the "recording").
+#
+# HYPOTHESIS:
+# The 24.06% of failures will be strongly correlated with a specific
+# 10-anchor historical pattern (e.g., "C-C-M-C..."), proving that
+# f(p_n) is a function of the anchor field's historical instability.
+#
+# v21.0 "FINGERPRINT" LOGIC:
+#
+# 1. For each p_n:
+# 2.   Go back 10 steps (p_{n-1} to p_{n-10}).
+# 3.   For each step, find the PAS Law I Status (Clean/Messy) of its anchor
+#      (S_{n-1} ... S_{n-10}).
+# 4.   Create the 10-character "Historical Fingerprint" string.
+# 5.   Run the v16.0 champion engine to get the result (SUCCESS or FAILURE).
+# 6.   Log the fingerprint into the "Success" or "Failure" database.
+# 7.   At the end, compare the "Top 10" fingerprints from both databases.
+# ==============================================================================
+
+
+
+==================== PLR (v21.0 'Historical Fingerprint') TEST REPORT ====================
+
+Total Primes Tested: 50,000,000
+Total v16.0 Failures Analyzed (24.06%): 12,030,256
+Total v16.0 Successes Analyzed (75.94%): 37,969,744
+
+-------------------- Top 10 Most Common 'SUCCESS' Fingerprints --------------------
+
+Fingerprint (S_n-1 ... S_n-10) | Count           | % of Successes      
+----------------------------------------------------------------------
+CCCCCCCCCC                     | 9,457,927       |               24.91%
+MCCCCCCCCC                     | 1,407,744       |                3.71%
+CCCCCCCCCM                     | 1,405,354       |                3.70%
+CCCCMCCCCC                     | 1,380,723       |                3.64%
+CCCCCCMCCC                     | 1,380,679       |                3.64%
+CCCMCCCCCC                     | 1,380,144       |                3.63%
+CCCCCMCCCC                     | 1,380,050       |                3.63%
+CCCCCCCMCC                     | 1,379,777       |                3.63%
+CCMCCCCCCC                     | 1,378,217       |                3.63%
+CCCCCCCCMC                     | 1,375,272       |                3.62%
+
+-------------------- Top 10 Most Common 'FAILURE' Fingerprints --------------------
+
+Fingerprint (S_n-1 ... S_n-10) | Count           | % of Failures       
+----------------------------------------------------------------------
+CCCCCCCCCC                     | 2,999,717       |               24.93%
+CCCCCCCCCM                     | 445,602         |                3.70%
+MCCCCCCCCC                     | 443,213         |                3.68%
+CCCCCMCCCC                     | 438,395         |                3.64%
+CCCMCCCCCC                     | 437,565         |                3.64%
+CCCCCCMCCC                     | 437,502         |                3.64%
+CCMCCCCCCC                     | 437,492         |                3.64%
+CCCCMCCCCC                     | 437,047         |                3.63%
+CCCCCCCMCC                     | 436,786         |                3.63%
+CMCCCCCCCC                     | 436,595         |                3.63%
+
+
+==================== FINAL ANALYTIC CONCLUSION ====================
+
+  [VERDICT: THE TRAIL HAS GONE COLD. 75.94% IS THE LIMIT.]
+  The failure distribution is identical to the success distribution.
+  The most common fingerprint for BOTH is: CCCCCCCCCC
+
+  This confirms all previous tests: the 24.06%
+  of failures are true *local* randomness, not correlated
+  with the historical instability of the anchor field.
+=============================================================================

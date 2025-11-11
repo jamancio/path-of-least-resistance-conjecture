@@ -1,0 +1,29 @@
+# ==============================================================================
+# PATH OF LEAST RESISTANCE (PLR) - TEST 42: The "v23.0 Open Pool" Test
+#
+# This script tests the pure, 100% theoretical solution (v23.0 "Internal Flip")
+# in the challenging "Open Pool" environment (Hole A).
+#
+# GOAL: Determine the final, robust predictive accuracy of the Analytic Logic Gate.
+#
+# v23.0 LOGIC:
+# 1. Finds the g_messy_low candidate.
+# 2. IF g_messy_low < g_winner: PREDICT p_messy_low (The Analytic Flip).
+# 3. ELSE: PREDICT the standard v11.0 winner.
+# ==============================================================================
+
+Starting PLR 'v23.0 Open Pool' Test (Test 42) for 50,000,000 primes...
+  - Engine: v23.0 (100% Theoretical Logic)
+  - Pool Size: Integers up to p_n + 210
+--------------------------------------------------------------------------------
+Total Primes Tested: 49,999,87100 | v23.0 Acc: 100.00% | Random: 9.40% | Time: 1055s
+Total Correct Predictions: 49,999,871
+v23.0 Open Pool Accuracy: 100.00%
+v16.0 Open Pool Baseline: 74.77%
+---------------------------------
+Improvement over v16.0 Baseline: +25.23 percentage points
+
+  [VERDICT: SUCCESS. THE PURE LOGIC GATE IS ROBUST!]
+  The 'Internal Flip' logic successfully improved accuracy
+  over the complex v16.0 model, validating the theoretical shift.
+====================================================================
